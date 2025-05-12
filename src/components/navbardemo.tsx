@@ -10,6 +10,7 @@ import {
   MobileNavToggle,
   MobileNavMenu,
 } from "@/components/ui/Navbar";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export function NavbarDemo() {
@@ -29,7 +30,7 @@ export function NavbarDemo() {
   ];
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
+  const router  = useRouter();
   return (
     <div className="relative w-full">
       <Navbar>
@@ -39,7 +40,8 @@ export function NavbarDemo() {
           <NavItems items={navItems} />
           <div className="flex items-center gap-4">
             <NavbarButton variant="secondary">Login</NavbarButton>
-            <NavbarButton variant="primary">Sign up</NavbarButton>
+            
+            <NavbarButton variant="primary" onClick={()=>router.push('/signup')}>Sign up</NavbarButton>
           </div>
         </NavBody>
 
