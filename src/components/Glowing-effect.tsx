@@ -8,37 +8,37 @@ export function GlowingEffectDemoSecond() {
     <ul className="grid grid-cols-1 grid-rows-none gap-4 md:grid-cols-12 md:grid-rows-3 lg:gap-4 xl:max-h-[34rem] xl:grid-rows-2">
       <GridItem
         area="md:[grid-area:1/1/2/7] xl:[grid-area:1/1/2/5]"
-        icon={<Box className="h-4 w-4 text-black dark:text-neutral-400" />}
-        title="Do things the right way"
-        description="Running out of copy so I'll write anything."
+        icon={<Search className="h-4 w-4 text-black dark:text-neutral-400" />}
+        title="Find the Right AI Tool Fast"
+        description="Use intelligent search to discover the best AI tool for your task from our curated collection."
       />
 
       <GridItem
         area="md:[grid-area:1/7/2/13] xl:[grid-area:2/1/3/5]"
         icon={<Settings className="h-4 w-4 text-black dark:text-neutral-400" />}
-        title="The best AI code editor ever."
-        description="Yes, it's true. I'm not even kidding. Ask my mom if you don't believe me."
+        title="All-in-One Subscription"
+        description="Get access to top AI tools through a single, unified subscription. No more juggling payments."
       />
 
       <GridItem
         area="md:[grid-area:2/1/3/7] xl:[grid-area:1/5/3/8]"
-        icon={<Lock className="h-4 w-4 text-black dark:text-neutral-400" />}
-        title="You should buy Aceternity UI Pro"
-        description="It's the best money you'll ever spend"
+        icon={<Box className="h-4 w-4 text-black dark:text-neutral-400" />}
+        title="Tool Comparison Made Easy"
+        description="Compare features, performance, pricing, and use-cases for each AI tool – all in one place."
       />
 
       <GridItem
         area="md:[grid-area:2/7/3/13] xl:[grid-area:1/8/2/13]"
         icon={<Sparkles className="h-4 w-4 text-black dark:text-neutral-400" />}
-        title="This card is also built by Cursor"
-        description="I'm not even kidding. Ask my mom if you don't believe me."
+        title="AI-Powered Recommendations"
+        description="Personalized tool suggestions based on your task, goals, and past interactions."
       />
 
       <GridItem
         area="md:[grid-area:3/1/4/13] xl:[grid-area:2/8/3/13]"
-        icon={<Search className="h-4 w-4 text-black dark:text-neutral-400" />}
-        title="Coming soon on Aceternity UI"
-        description="I'm writing the code as I record this, no shit."
+        icon={<Lock className="h-4 w-4 text-black dark:text-neutral-400" />}
+        title="Privacy First"
+        description="We don’t track your inputs. Your tool usage stays private and secure."
       />
     </ul>
   );
@@ -83,4 +83,5 @@ const GridItem = ({ area, icon, title, description }: GridItemProps) => {
     </li>
   );
 };
+
 export default GlowingEffectDemoSecond;
