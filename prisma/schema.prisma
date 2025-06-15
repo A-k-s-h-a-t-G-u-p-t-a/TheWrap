@@ -5,7 +5,7 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+  provider = "prisma-client-js"  
 }
 
 datasource db {
@@ -13,14 +13,27 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+generator pgvector {
+  provider = "pgvector/prisma"
+  output   = "./generated/pgvector-client"
+}
+
 model User {
   id            String   @id @default(cuid())
   name          String?
-  email         String   @unique
+  email         String   
   emailVerified DateTime?
   image         String?
   hashedPassword String?
 
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+}
+model Tool {
+  id          String   @id @default(uuid())
+  name        String
+  description String
+  link       String
+  embedding   Unsupported("vector") 
+  @@map("tools")
 }

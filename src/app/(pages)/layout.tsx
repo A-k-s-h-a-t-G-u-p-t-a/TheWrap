@@ -1,15 +1,15 @@
 import NavbarDemo from '@/components/navbardemo'
 import React from 'react'
-
+import { SidebarDemo } from '@/components/sidebardemo';
 type Props = { children: React.ReactNode }
 
-const Layout = ({ children }: Props) => {
+export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div>
-        <NavbarDemo/>
-      {children}
+    <div className="dark flex min-h-screen" >
+      <SidebarDemo />
+      <main className="flex-1 overflow-y-auto bg-gray-1000 p-4">
+        {children}
+      </main>
     </div>
-  )
+  );
 }
-
-export default Layout
