@@ -1,21 +1,19 @@
+// app/(pages)/canvas/page.tsx
 "use client";
-import { Excalidraw, convertToExcalidrawElements } from "@excalidraw/excalidraw";
 
-import "@excalidraw/excalidraw/index.css";
+import dynamic from "next/dynamic";
 
-const ExcalidrawWrapper: React.FC = () => {
-  console.info(convertToExcalidrawElements([{
-    type: "rectangle",
-    id: "rect-1",
-    width: 186.47265625,
-    height: 141.9765625,
-    x: 0,
-    y: 0,
-  },]));
+const ExcalidrawWrapper = dynamic(() => import("@/components/Excalidraw"), {
+  ssr: false,
+  loading: () => <p>Loading canvas...</p>,
+});
+
+const CanvasPage = () => {
   return (
-    <div className="w-full h-full">
-      <Excalidraw />
+    <div className="flex justify-center items-center h-screen bg-zinc-900">
+      <ExcalidrawWrapper />
     </div>
   );
 };
-export default ExcalidrawWrapper;
+
+export default CanvasPage;

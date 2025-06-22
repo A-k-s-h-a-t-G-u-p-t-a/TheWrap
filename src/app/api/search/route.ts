@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { exec } from "child_process";
-import prisma from "@/lib/prisma"; // your Prisma instance
+import {prisma} from "@/lib/prisma"; // your Prisma instance
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);

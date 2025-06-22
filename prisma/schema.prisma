@@ -13,15 +13,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-generator pgvector {
-  provider = "pgvector/prisma"
-  output   = "./generated/pgvector-client"
-}
 
 model User {
   id            String   @id @default(cuid())
   name          String?
-  email         String   
+  email         String   @unique
   emailVerified DateTime?
   image         String?
   hashedPassword String?

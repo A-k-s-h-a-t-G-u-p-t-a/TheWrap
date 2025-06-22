@@ -1,4 +1,5 @@
 import { DraggableCardDemo } from "@/components/dargcards";
+import Footer from "@/components/footer";
 import GlowingEffectDemoSecond from "@/components/Glowing-effect";
 import { HeroHighlightDemo } from "@/components/hero";
 import NavbarDemo from "@/components/navbardemo";
@@ -21,6 +22,7 @@ export default function Home() {
       </div>
       {/* <DraggableCardDemo/> */}
       <DraggableCardDemo></DraggableCardDemo>
+      <Footer></Footer>
     </div>
   );
 }
