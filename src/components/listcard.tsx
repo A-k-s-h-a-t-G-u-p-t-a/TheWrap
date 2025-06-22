@@ -1,5 +1,5 @@
 
-import TaskItem from "@/Components/taskitem";
+import TaskItem from "@/Components/TaskItem";
 
 export default function ListCard({ list }: any) {
   return (

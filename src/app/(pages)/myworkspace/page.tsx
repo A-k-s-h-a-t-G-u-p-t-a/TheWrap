@@ -1,7 +1,7 @@
 // components/Workspace.tsx
 "use client";
 
-import ListCard from "@/components/listcard";
+import ListCard from "@/components/ListCard";
 import { useState } from "react";
 
 const mockData = [
