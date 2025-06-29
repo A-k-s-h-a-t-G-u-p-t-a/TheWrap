@@ -5,7 +5,7 @@ import { prisma } from "@/lib/prisma";
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -15,7 +15,8 @@ export async function PATCH(
     }
 
     const { completed } = await request.json();
-    const taskId = params.id;
+    const resolvedParams = await params;
+    const taskId = resolvedParams.id;
 
     // Find the user by email
     const user = await prisma.user.findUnique({
