@@ -1,9 +1,26 @@
 
-import TaskItem from "@/Components/TaskItem";
+import TaskItem from "@/components/TaskItem";
 
-export default function ListCard({ list }: any) {
+interface ListCardProps {
+  list: {
+    id: string;
+    name: string;
+    tag: string;
+    tasks: Array<{
+      id: string;
+      name: string;
+      duration: string;
+    }>;
+  };
+  onClick?: () => void;
+}
+
+export default function ListCard({ list, onClick }: ListCardProps) {
   return (
-    <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
+    <div 
+      className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 cursor-pointer hover:border-zinc-600 transition-colors"
+      onClick={onClick}
+    >
       <div className="flex items-center gap-2 mb-4">
         <span className="bg-zinc-700 text-white px-2 py-1 rounded text-sm font-bold">
           {list.tag}

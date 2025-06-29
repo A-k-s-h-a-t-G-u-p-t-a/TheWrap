@@ -22,6 +22,8 @@ model User {
   image         String?
   hashedPassword String?
 
+  lists         List[] 
+
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 }
@@ -32,4 +34,27 @@ model Tool {
   link       String
   embedding   Unsupported("vector") 
   @@map("tools")
+}
+model List {
+  id          String   @id @default(uuid())
+  name        String
+  tag         String
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  tasks       Task[]
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+model Task {
+  id          String    @id @default(uuid())
+  name        String
+  duration    String    @default("00:00")
+  completed   Boolean   @default(false)
+  completedAt DateTime?
+  listId      String
+  list        List      @relation(fields: [listId], references: [id])
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }
