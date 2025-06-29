@@ -40,7 +40,7 @@ export default function Dashboard() {
       }
     };
 
-    // logic of debounce used for search at interval of 400ms 
+    // logic of debounce used for search at interval of 400ms .... smart
     const debounce = setTimeout(fetchResults, 400); 
     return () => clearTimeout(debounce);
   }, [query]);
