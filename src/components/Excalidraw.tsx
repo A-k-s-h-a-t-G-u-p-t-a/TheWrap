@@ -1,7 +1,12 @@
 import dynamic from "next/dynamic";
 import { useState, useEffect } from "react";
-import type { ExcalidrawAPIRefValue, ExcalidrawProps } from "@excalidraw/excalidraw/types/types";
 import "@excalidraw/excalidraw/index.css";
+
+// Type for the Excalidraw API
+type ExcalidrawAPI = {
+  getSceneElements: () => readonly any[];
+  // Add other methods as needed
+};
 
 // Use dynamic import for the Excalidraw component
 const ExcalidrawComponent = dynamic(
@@ -17,7 +22,7 @@ export default function ExcalidrawCanvas({
 }: {
   onSummary: (summary: string[]) => void;
 }) {
-  const [excalidrawAPI, setExcalidrawAPI] = useState<ExcalidrawAPIRefValue | null>(null);
+  const [excalidrawAPI, setExcalidrawAPI] = useState<ExcalidrawAPI | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
@@ -31,8 +36,8 @@ export default function ExcalidrawCanvas({
     const elements = excalidrawAPI.getSceneElements();
     
     const textOnly = elements
-      .filter((el) => el.type === "text")
-      .map((el) => el.text)
+      .filter((el: any) => el.type === "text")
+      .map((el: any) => el.text)
       .join("\n");
 
     if (!textOnly) return;
