@@ -5,6 +5,7 @@ import {
   IconBrandTabler,
   IconSettings,
   IconUserBolt,
+  IconRobot,
 } from "@tabler/icons-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -31,7 +32,7 @@ export function SidebarDemo() {
     {
       label: "Ai Assistant",
       href: "/ai-assistant",
-      icon: <IconArrowLeft className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />,
+      icon: <IconRobot className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />,
     },
   ];
 
@@ -54,22 +55,7 @@ export function SidebarDemo() {
             ))}
           </div>
         </div>
-        <SidebarLink
-          link={{
-            label: "Manu Arora",
-            href: "#",
-            icon: (
-              <img
-                src="https://assets.aceternity.com/manu.png"
-                className="h-7 w-7 shrink-0 rounded-full"
-                width={50}
-                height={50}
-                alt="Avatar"
-              />
-            ),
-          }}
-          labelVisible={open}
-        />
+        
       </div>
     </div>
   );
