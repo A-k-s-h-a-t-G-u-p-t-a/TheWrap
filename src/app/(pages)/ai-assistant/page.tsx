@@ -1,8 +1,42 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import { Mic, MicOff, Volume2, VolumeX, MessageCircle, Calendar, CheckCircle } from "lucide-react";
+import { useState, useEffect, useRef, useCallback } from "react";
+import { Mic, MicOff, Volume2, VolumeX, MessageCircle, Calendar } from "lucide-react";
 import { fetchUserLists } from "@/lib/actions/fetchUserLists";
+
+// Type definitions for Speech Recognition
+interface SpeechRecognitionResult {
+  [index: number]: {
+    transcript: string;
+  };
+}
+
+interface SpeechRecognitionResultList {
+  readonly length: number;
+  item(index: number): SpeechRecognitionResult;
+  [index: number]: SpeechRecognitionResult;
+}
+
+interface SpeechRecognitionEvent {
+  readonly resultIndex: number;
+  readonly results: SpeechRecognitionResultList;
+}
+
+interface SpeechRecognitionErrorEvent {
+  readonly error: string;
+}
+
+interface UserList {
+  id: string;
+  name: string;
+  tag: string;
+  tasks: Array<{
+    id: string;
+    name: string;
+    duration: string;
+    completed?: boolean;
+  }>;
+}
 
 interface Message {
   id: string;
@@ -17,7 +51,7 @@ export default function AIAssistantPage() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [currentTranscript, setCurrentTranscript] = useState("");
   const [textInput, setTextInput] = useState("");
-  const [userLists, setUserLists] = useState<any[]>([]);
+  const [userLists, setUserLists] = useState<UserList[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   
   const recognitionRef = useRef<SpeechRecognition | null>(null);
@@ -26,7 +60,7 @@ export default function AIAssistantPage() {
   useEffect(() => {
     // Initialize speech recognition
     if (typeof window !== 'undefined' && 'webkitSpeechRecognition' in window) {
-      const recognition = new (window as any).webkitSpeechRecognition();
+      const recognition = new (window as unknown as { webkitSpeechRecognition: new () => SpeechRecognition }).webkitSpeechRecognition();
       recognition.continuous = false; // Changed to false for better control
       recognition.interimResults = true;
       recognition.lang = 'en-US';
@@ -37,7 +71,7 @@ export default function AIAssistantPage() {
         setIsListening(true);
       };
 
-      recognition.onresult = (event: any) => {
+      recognition.onresult = (event: SpeechRecognitionEvent) => {
         let transcript = '';
         for (let i = event.resultIndex; i < event.results.length; i++) {
           transcript += event.results[i][0].transcript;
@@ -54,7 +88,7 @@ export default function AIAssistantPage() {
         }
       };
 
-      recognition.onerror = (event: any) => {
+      recognition.onerror = (event: SpeechRecognitionErrorEvent) => {
         console.error('Speech recognition error:', event.error);
         setIsListening(false);
         setCurrentTranscript("");
@@ -98,7 +132,7 @@ export default function AIAssistantPage() {
         recognitionRef.current.stop();
       }
     };
-  }, [currentTranscript]);
+  }, []);
 
   const loadUserLists = async () => {
     try {
@@ -170,7 +204,7 @@ export default function AIAssistantPage() {
     }
   };
 
-  const handleUserMessage = async (message: string) => {
+  const handleUserMessage = useCallback(async (message: string) => {
     addMessage('user', message);
     setIsLoading(true);
 
@@ -188,7 +222,7 @@ export default function AIAssistantPage() {
             totalLists: userLists.length,
             totalTasks: userLists.reduce((acc, list) => acc + list.tasks.length, 0),
             pendingTasks: userLists.reduce((acc, list) => 
-              acc + list.tasks.filter((task: any) => !task.completed).length, 0
+              acc + list.tasks.filter((task) => !task.completed).length, 0
             )
           }
         }),
@@ -217,7 +251,7 @@ export default function AIAssistantPage() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [userLists]);
 
   const handleTextSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -227,7 +261,7 @@ export default function AIAssistantPage() {
     }
   };
 
-  const handleAIAction = async (action: any) => {
+  const handleAIAction = async (action: { type: string; [key: string]: unknown }) => {
     switch (action.type) {
       case 'CREATE_TASK':
         try {
@@ -283,7 +317,7 @@ export default function AIAssistantPage() {
   const getTodayStats = () => {
     const totalTasks = userLists.reduce((acc, list) => acc + list.tasks.length, 0);
     const completedTasks = userLists.reduce((acc, list) => 
-      acc + list.tasks.filter((task: any) => task.completed).length, 0
+      acc + list.tasks.filter((task) => task.completed).length, 0
     );
     const pendingTasks = totalTasks - completedTasks;
     
