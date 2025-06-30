@@ -2,9 +2,21 @@ import dynamic from "next/dynamic";
 import { useState, useEffect } from "react";
 import "@excalidraw/excalidraw/index.css";
 
+// Type for Excalidraw elements
+type ExcalidrawElement = {
+  id: string;
+  type: string;
+  text?: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  [key: string]: unknown;
+};
+
 // Type for the Excalidraw API
 type ExcalidrawAPI = {
-  getSceneElements: () => readonly any[];
+  getSceneElements: () => readonly ExcalidrawElement[];
   // Add other methods as needed
 };
 
@@ -36,8 +48,8 @@ export default function ExcalidrawCanvas({
     const elements = excalidrawAPI.getSceneElements();
     
     const textOnly = elements
-      .filter((el: any) => el.type === "text")
-      .map((el: any) => el.text)
+      .filter((el: ExcalidrawElement) => el.type === "text")
+      .map((el: ExcalidrawElement) => el.text || "")
       .join("\n");
 
     if (!textOnly) return;

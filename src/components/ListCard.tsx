@@ -1,16 +1,18 @@
 
 import TaskItem from "@/components/TaskItem";
 
+interface TaskItemType {
+  id: string;
+  name: string;
+  duration: string;
+}
+
 interface ListCardProps {
   list: {
     id: string;
     name: string;
     tag: string;
-    tasks: Array<{
-      id: string;
-      name: string;
-      duration: string;
-    }>;
+    tasks: TaskItemType[];
   };
   onClick?: () => void;
 }
@@ -29,7 +31,7 @@ export default function ListCard({ list, onClick }: ListCardProps) {
       </div>
 
       <div className="space-y-2">
-        {list.tasks.map((task: any, index: number) => (
+        {list.tasks.map((task: TaskItemType, index: number) => (
           <TaskItem key={task.id} task={task} index={index + 1} />
         ))}
       </div>
@@ -42,7 +44,7 @@ export default function ListCard({ list, onClick }: ListCardProps) {
   );
 }
 
-function calculateTotalTime(tasks: any[]) {
+function calculateTotalTime(tasks: TaskItemType[]) {
   const totalMins = tasks.reduce((acc, t) => {
     const [h, m] = t.duration.split(":").map(Number);
     return acc + h * 60 + m;

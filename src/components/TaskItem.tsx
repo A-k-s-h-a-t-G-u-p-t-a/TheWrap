@@ -1,5 +1,17 @@
 
-export default function TaskItem({ task, index, onToggleComplete, showCheckbox = false }: any) {
+interface TaskItemProps {
+  task: {
+    id: string;
+    name: string;
+    duration: string;
+    completed?: boolean;
+  };
+  index: number;
+  onToggleComplete?: (taskId: string) => void;
+  showCheckbox?: boolean;
+}
+
+export default function TaskItem({ task, index, onToggleComplete, showCheckbox = false }: TaskItemProps) {
   return (
     <div className="flex justify-between items-center bg-zinc-800 px-3 py-2 rounded">
       <div className="flex items-center gap-3 w-2/3">
