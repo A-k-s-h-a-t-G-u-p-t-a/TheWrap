@@ -1,6 +1,7 @@
 "use client";
 import { HeroHighlight, Highlight } from "@/components/ui/hero-highlight";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 export function HeroHighlightDemo() {
   return (
@@ -27,12 +28,14 @@ export function HeroHighlightDemo() {
         </Highlight>
       </motion.h1>
       <div className="mt-10 flex justify-center gap-4">
-        <button className="px-6 py-3 rounded-2xl bg-black text-white dark:bg-white dark:text-black font-semibold hover:scale-105 transition">
+        <Link href="https://the-wrap.vercel.app/signup"
+        className="px-6 py-3 rounded-2xl bg-black text-white dark:bg-white dark:text-black font-semibold hover:scale-105 transition">
           Explore Tools
-        </button>
-        <button className="px-6 py-3 rounded-2xl border border-black dark:border-white text-black dark:text-white font-semibold hover:scale-105 transition">
+        </Link>
+        <Link href="https://the-wrap.vercel.app/signup"
+          className="px-6 py-3 rounded-2xl border border-black dark:border-white text-black dark:text-white font-semibold hover:scale-105 transition">
           Join The Wrap
-        </button>
+        </Link>
       </div>
     </HeroHighlight>
   );
