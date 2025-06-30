@@ -3,6 +3,22 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import Groq from "groq-sdk";
 
+// Type definitions
+interface UserList {
+  id: string;
+  name: string;
+  tasks: Array<{
+    id: string;
+    name: string;
+    completed?: boolean;
+  }>;
+}
+
+interface Context {
+  totalTasks: number;
+  pendingTasks: number;
+}
+
 export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
@@ -12,24 +28,49 @@ export async function POST(request: NextRequest) {
 
     const { message, userLists, context } = await request.json();
 
+    // Check if GROQ_API_KEY is available
+    if (!process.env.GROQ_API_KEY) {
+      return NextResponse.json({
+        response: "AI service is currently unavailable. Please try again later.",
+        action: null
+      });
+    }
+
     // Analyze the user's message and determine intent
     const aiResponse = await generateAIResponse(message, userLists, context);
 
     return NextResponse.json(aiResponse);
   } catch (error) {
     console.error("Error in AI assistant:", error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
+    return NextResponse.json({
+      response: "Sorry, I'm having trouble right now. Please try again later.",
+      action: null
+    });
   }
 }
 
-async function generateAIResponse(message: string, userLists: any[], context: any) {
+async function generateAIResponse(message: string, userLists: UserList[], context: Context) {
+  // During build time, return a fallback response
+  if (process.env.NODE_ENV === 'production' && !process.env.GROQ_API_KEY) {
+    return {
+      response: "AI service is currently being configured. Please try again later.",
+      action: null
+    };
+  }
+
   // Initialize Groq client
-  const groq = new Groq({
-    apiKey: process.env.GROQ_API_KEY,
-  });
+  let groq;
+  try {
+    groq = new Groq({
+      apiKey: process.env.GROQ_API_KEY,
+    });
+  } catch (error) {
+    console.error("Failed to initialize Groq client:", error);
+    return {
+      response: "AI service is currently unavailable. Please try again later.",
+      action: null
+    };
+  }
 
   // Prepare context for the AI
   const listsContext = userLists.map(list => ({
